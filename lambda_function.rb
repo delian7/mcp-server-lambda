@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
 require 'json'
+require_relative 'open_ai_client'
 
 def lambda_handler(event:, context:) # rubocop:disable Lint/UnusedMethodArgument
   http_method = event['httpMethod']
   # resource = event['resource']
   # raw_data = event.dig('queryStringParameters', 'raw_data')
+  ai_client = OpenAiClient.new("hello")
 
   case http_method
   when 'GET'
-    send_response("hello from lambda!")
+    send_response(ai_client.get_response)
   else
     method_not_allowed_response
   end
